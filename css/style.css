@@ -1,0 +1,19 @@
+body div {
+    font-size: large;
+}
+
+.bold {
+    font-weight:bold;
+}
+
+.italic{
+    font-style: italic;
+}
+
+div span{
+    color: darkblue;
+}
+
+.address{
+    color: maroon;
+}
