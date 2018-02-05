@@ -1,19 +1,32 @@
-body div {
-    font-size: large;
+.secondLink {
+    width: 100px;
+    height: 80px;
+    background-color: #9fcdff;
+    text-align: center;
+    padding-top: 45px;
 }
 
-.bold {
-    font-weight:bold;
+.secondBox{
+    background-image: url("../images/mobility.png");
+    width: 120px;
+    height: 130px;
+    background-repeat: no-repeat;
+
 }
 
-.italic{
-    font-style: italic;
+.middlebox{
+    background-color: #b3d7ff;
 }
 
-div span{
-    color: darkblue;
+.lastbox{
+    background-color: #e4606d;
 }
 
-.address{
-    color: maroon;
+.displaybox{
+    width: 200px;
+    height: 200px;
+    background-color: darkcyan;
+    position: absolute;
+    top: 50px;
+    left: 100px;
 }
