@@ -35,23 +35,12 @@
         var oldMovies = getOldMovies();
         var movies = getMovieArray(mvName, oldMovies);
         storeToLocal(movies);
-        addToList(mvName);
-    }
-
-    function addToList(mvName){
         var list = document.getElementById('mvlist');
         var litem = document.createElement('li');
         var txtNode = document.createTextNode(mvName);
         litem.appendChild(txtNode);
         list.appendChild(litem);
-    }
 
-    function onInit(){
-
-        var oldMovies = getOldMovies();
-        for(var i =0; i< oldMovies.length; i++){
-            addToList(oldMovies[i]);
-        }
     }
 
     function getMovieName(){
@@ -76,8 +65,6 @@
     function storeToLocal(movies){
         localStorage.setItem("movies", JSON.stringify(movies) );
     }
-
-    window.onload = onInit;
 </script>
 </body>
 </html>
