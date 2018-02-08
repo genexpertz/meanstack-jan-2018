@@ -12,16 +12,27 @@
 <div class="row">
     <div class="col-4">&nbsp;</div>
     <div class="col-4">
-  <form class="form">
-      <input name="mvname" id="mvname" type="text" width="100" max="100" />
-      <input type="button" value="Add" onclick="clickme()" />
-  </form>
-        <ul id="mvlist">
-        </ul>
-    </div>
-  <div class="col-4">
 
-  </div>
+             <form class="form">
+                 <div class="form-group">
+                <label for="mvname">Movie Name</label>
+                <input name="mvname" id="mvname" type="text" width="100" max="100"/>
+                 </div>
+                 <div class="form-group">
+                     <label for="mvrating">Movie Rating</label>
+                <input name="mvrating" id="mvrating" type="text" width="5" max="1"/>
+                <input type="button" value="Add" onclick="clickme()"/>
+                 </div>
+            </form>
+
+        <ul class="list-group" id="mvlist">
+
+        </ul>
+
+    </div>
+    <div class="col-4">
+
+    </div>
 </div>
 <script src="assets/web/assets/jquery/jquery.min.js"></script>
 <script src="assets/popper/popper.min.js"></script>
@@ -29,52 +40,73 @@
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 
 <script>
+
+    function Movie(name, rating) {
+        this.name = name;
+        this.rating = rating;
+    }
+
     function clickme() {
 
         var mvName = getMovieName();
+        var mvRating = getMovieRating();
+
         var oldMovies = getOldMovies();
-        var movies = getMovieArray(mvName, oldMovies);
+        var movies = getMovieArray(mvName, mvRating, oldMovies);
         storeToLocal(movies);
-        addToList(mvName);
+        addToList(mvName, mvRating);
     }
 
-    function addToList(mvName){
+    function addToList(mvName, mvRating) {
         var list = document.getElementById('mvlist');
         var litem = document.createElement('li');
-        var txtNode = document.createTextNode(mvName);
-        litem.appendChild(txtNode);
+        litem.setAttribute("class","list-group-item");
+        var txtNodeName = document.createTextNode(mvName);
+        var txtNodeRating = document.createTextNode("," + mvRating);
+        litem.appendChild(txtNodeName);
+        litem.appendChild(txtNodeRating);
         list.appendChild(litem);
     }
 
-    function onInit(){
+    function onInit() {
 
         var oldMovies = getOldMovies();
-        for(var i =0; i< oldMovies.length; i++){
-            addToList(oldMovies[i]);
+        for (var i = 0; i < oldMovies.length; i++) {
+            addToList(oldMovies[i].name, oldMovies[i].rating);
         }
     }
 
-    function getMovieName(){
+    function getMovieName() {
         var mvName = document.getElementById('mvname');
         return mvName.value;
     }
 
-    function getOldMovies(){
-        var oldMovies = JSON.parse( localStorage.getItem('movies'));
+    function getMovieRating() {
+        var mvRating = document.getElementById('mvrating');
+        return mvRating.value;
+    }
+
+    function getOldMovies() {
+        var oldMovies = JSON.parse(localStorage.getItem('movies'));
+        if (oldMovies == null) {
+            oldMovies = new Array();
+        }
         return oldMovies;
     }
 
-    function getMovieArray(mvName, oldMovies){
+    function getMovieArray(mvName, mvRating, oldMovies) {
         var movies = new Array();
-        if(oldMovies != null || oldMovies.length > 0 ){
-             movies = oldMovies;
+        if (oldMovies != null || oldMovies.length > 0) {
+            movies = oldMovies;
         }
-        movies.push(mvName);
+        var mvObject = new Movie(mvName, mvRating);
+
+        movies.push(mvObject);
         return movies;
     }
 
-    function storeToLocal(movies){
-        localStorage.setItem("movies", JSON.stringify(movies) );
+    function storeToLocal(movies) {
+        localStorage.setItem("movies", JSON.stringify(movies));
     }
 
     window.onload = onInit;
