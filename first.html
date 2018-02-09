@@ -10,8 +10,7 @@
 </head>
 <body>
 <div class="row">
-    <div class="col-4">&nbsp;</div>
-    <div class="col-4">
+        <div class="col-4">
 
              <form class="form">
                  <div class="form-group">
@@ -31,85 +30,54 @@
 
     </div>
     <div class="col-4">
-
+        <div id="maplocation" style="width: 400px; height: 400px;"></div>
     </div>
 </div>
 <script src="assets/web/assets/jquery/jquery.min.js"></script>
 <script src="assets/popper/popper.min.js"></script>
 <script src="assets/tether/tether.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/movie.js"></script>
+<script>
+    var latitude ;
+    var longitude;
 
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(getPosition);
+    } else {
+        alert('not working')
+    }
+
+    function getPosition(position) {
+
+
+        latitude = ''+ position.coords.latitude;
+        longitude = ''+position.coords.longitude;
+    }
+</script>
+
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyAbrYqGSpZ7P2r2K9ZQyjBysaEqUoW0pMg&amp;callback=displayMap" async defer></script>
 <script>
 
-    function Movie(name, rating) {
-        this.name = name;
-        this.rating = rating;
+    function displayMap() {
+
+
+        var maplocation = document.getElementById("maplocation");
+
+        var mapOptions = { zoom: 10,
+            center: {lat: parseFloat(latitude), lng: parseFloat( longitude)},
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        map = new google.maps.Map(maplocation, mapOptions);
+
     }
 
-    function clickme() {
 
-        var mvName = getMovieName();
-        var mvRating = getMovieRating();
 
-        var oldMovies = getOldMovies();
-        var movies = getMovieArray(mvName, mvRating, oldMovies);
-        storeToLocal(movies);
-        addToList(mvName, mvRating);
-    }
 
-    function addToList(mvName, mvRating) {
-        var list = document.getElementById('mvlist');
-        var litem = document.createElement('li');
-        litem.setAttribute("class","list-group-item");
-        var txtNodeName = document.createTextNode(mvName);
-        var txtNodeRating = document.createTextNode("," + mvRating);
-        litem.appendChild(txtNodeName);
-        litem.appendChild(txtNodeRating);
-        list.appendChild(litem);
-    }
-
-    function onInit() {
-
-        var oldMovies = getOldMovies();
-        for (var i = 0; i < oldMovies.length; i++) {
-            addToList(oldMovies[i].name, oldMovies[i].rating);
-        }
-    }
-
-    function getMovieName() {
-        var mvName = document.getElementById('mvname');
-        return mvName.value;
-    }
-
-    function getMovieRating() {
-        var mvRating = document.getElementById('mvrating');
-        return mvRating.value;
-    }
-
-    function getOldMovies() {
-        var oldMovies = JSON.parse(localStorage.getItem('movies'));
-        if (oldMovies == null) {
-            oldMovies = new Array();
-        }
-        return oldMovies;
-    }
-
-    function getMovieArray(mvName, mvRating, oldMovies) {
-        var movies = new Array();
-        if (oldMovies != null || oldMovies.length > 0) {
-            movies = oldMovies;
-        }
-        var mvObject = new Movie(mvName, mvRating);
-
-        movies.push(mvObject);
-        return movies;
-    }
-
-    function storeToLocal(movies) {
-        localStorage.setItem("movies", JSON.stringify(movies));
-    }
-
-    window.onload = onInit;
 </script>
+
+
 </body>
 </html>
