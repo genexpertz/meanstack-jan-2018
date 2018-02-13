@@ -20,8 +20,15 @@
                  <div class="form-group">
                      <label for="mvrating">Movie Rating</label>
                 <input name="mvrating" id="mvrating" type="text" width="5" max="1"/>
-                <input type="button" value="Add" onclick="clickme()"/>
                  </div>
+                 <div class="form-group">
+                     <label for="mvgenre">Select Genre:</label>
+                     <select name="genre" id="mvgenre">
+                         <option name="comedy" value="comedy"/>
+                         <option name="action" value="action" />
+                     </select>
+                 </div>
+                 <input type="button" value="Add" onclick="clickme()"/>
             </form>
 
         <ul class="list-group" id="mvlist">
@@ -42,41 +49,39 @@
     var latitude ;
     var longitude;
 
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(getPosition);
-    } else {
-        alert('not working')
-    }
-
     function getPosition(position) {
 
-
-        latitude = ''+ position.coords.latitude;
-        longitude = ''+position.coords.longitude;
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        //alert('first'+latitude + ',' + longitude);
     }
-</script>
-
-<script src="http://maps.google.com/maps/api/js?key=AIzaSyAbrYqGSpZ7P2r2K9ZQyjBysaEqUoW0pMg&amp;callback=displayMap" async defer></script>
-<script>
 
     function displayMap() {
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(getPosition);
+        } else {
+            alert('not working')
+        }
+        setTimeout(showMap,1000);
 
+    }
 
+    function showMap(){
+
+        //alert('second'+latitude + ',' + longitude);
         var maplocation = document.getElementById("maplocation");
-
         var mapOptions = { zoom: 10,
-            center: {lat: parseFloat(latitude), lng: parseFloat( longitude)},
+            center: {lat: parseFloat(latitude) , lng: parseFloat(longitude)},
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
         map = new google.maps.Map(maplocation, mapOptions);
-
     }
 
 
-
-
 </script>
+
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyAbrYqGSpZ7P2r2K9ZQyjBysaEqUoW0pMg&amp;callback=displayMap" async defer></script>
 
 
 </body>
