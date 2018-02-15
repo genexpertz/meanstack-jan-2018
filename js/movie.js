@@ -67,6 +67,4 @@ function storeToLocal(movies) {
     localStorage.setItem("movies", JSON.stringify(movies));
 }
 
-window.onload = onInit;/**
- * Created by admin on 09/02/18.
- */
+window.onload = onInit;
