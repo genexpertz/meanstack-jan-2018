@@ -1,5 +1,1 @@
-{
-  "name": "water",
-  "rating": 5,
-  "genre": ["comedy", "thriller", "action"]
-}
+({ "name":"John", "age":30, "city":"New York" });
